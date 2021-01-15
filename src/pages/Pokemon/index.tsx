@@ -1,22 +1,58 @@
-import React from 'react'
-import PokemonsList from './PokemonsList'
-import {data} from './data'
+import React from "react";
+import { gql, useQuery } from "@apollo/client";
+
+import PokemonsList from "../../components/PokemonsList";
+import PokemonProfile from "../../components/PokemonProfile";
+import Pagination from "../../components/Pagination";
+import {
+  usePokemonDispatch,
+} from "../../context/PokemonsContext";
+
+const GET_POKEMONS = gql`
+  query pokemons($first: Int!) {
+    pokemons(first: $first) {
+      id
+      number
+      name
+      image
+      classification
+      weight {
+        minimum
+        maximum
+      }
+      height {
+        minimum
+        maximum
+      }
+    }
+  }
+`;
+
 const PokemonPage = () => {
-    const pokemons:Array<Pokemon> = data;
-    return (
-        <div className="min-w-screen min-h-screen bg-gray-400 flex items-center justify-center px-5 py-5">
-            <div className="bg-gray-400 text-white rounded-2xl shadow-xl w-full overflow-hidden max-w-screen-lg">
-                <div className="md:flex w-full mx-auto">
-                    <div className="hidden md:block w-1/2 bg-gray-200 py-10 px-10">
-                        <PokemonsList pokemons={pokemons} />
-                    </div>
-                    <div className="w-full md:w-1/2 py-10 bg-gray-500 px-5 md:px-10">
-                        <h1>This is PokemonProfile</h1>
-                    </div>
-                </div>
-            </div>
+  const dispatch = usePokemonDispatch();
+  const { loading, error, data } = useQuery(GET_POKEMONS, {
+    variables: {
+      first: 100,
+    },
+  });
+
+  React.useEffect(() => {
+    dispatch({ type: "SET_POKEMONS", payload: data?.pokemons });
+  }, [loading]);
+
+  return (
+    <div className="flex flex-col items-center justify-center w-screen h-screen max-w-full max-h-full p-20 bg-gray-400">
+      <div className="grid w-full max-h-full grid-cols-2 text-white bg-gray-400 shadow-xl rounded-2xl">
+        <div className="relative flex flex-col min-h-full col-span-1 bg-gray-200 md:col-span-1">
+          <PokemonsList />
+          <Pagination />
         </div>
-    )
-}
+        <div className="flex flex-col min-h-full col-span-1 bg-gray-500 md:col-span-1">
+          <PokemonProfile />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default PokemonPage;

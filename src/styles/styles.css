@@ -1,0 +1,30 @@
+.custom-bar {
+	/*add a shadow to the scrollbar here*/
+	/*this is the little scrolly dealio in the bar*/
+	/*nobody needs this little scrollbar corner, I mean really, get rid of it haha*/
+	 scrollbar-width: thin;
+	 scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+}
+ .custom-bar::-webkit-scrollbar {
+	 width: 8px;
+	 height: 8px;
+	 -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0);
+	 -webkit-border-radius: 8px;
+	 border-radius: 8px;
+}
+ .custom-bar::-webkit-scrollbar-track {
+	 -webkit-box-shadow: inset 0 0 0px rgba(0, 0, 0, 0);
+	 -webkit-border-radius: 8px;
+	 border-radius: 8px;
+}
+ .custom-bar::-webkit-scrollbar-thumb {
+	 border-radius: 8px;
+	 background: rgba(255, 255, 255, 0.5);
+	 height: 3px;
+}
+ .custom-bar::-webkit-scrollbar-corner {
+	 display: none;
+	 height: 0px;
+	 width: 0px;
+}
+ 

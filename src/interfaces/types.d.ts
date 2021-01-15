@@ -13,3 +13,9 @@ type Pokemon = {
         maximum: string
     }
 }
+
+type ContextType = {
+    pokemons: Array<Pokemon>,
+    selectedPokemon: Pokemon,
+    setSelectedPokemon:(pokemon:Pokemon) => void
+}
